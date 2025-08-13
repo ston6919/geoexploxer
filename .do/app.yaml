@@ -1,0 +1,41 @@
+name: geoexplorer
+services:
+  - name: backend
+    source_dir: /backend
+    github:
+      repo: yourusername/geoexplorer
+      branch: main
+    run_command: gunicorn core.wsgi:application --bind 0.0.0.0:$PORT
+    environment_slug: python
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    envs:
+      - key: DEBUG
+        value: "False"
+      - key: DJANGO_SETTINGS_MODULE
+        value: "core.settings"
+      - key: DATABASE_URL
+        value: ${db.DATABASE_URL}
+      - key: SECRET_KEY
+        generate_value: true
+
+  - name: frontend
+    source_dir: /frontend
+    github:
+      repo: yourusername/geoexplorer
+      branch: main
+    run_command: npm start
+    environment_slug: node-js
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    envs:
+      - key: NEXT_PUBLIC_API_URL
+        value: ${backend.URL}
+    routes:
+      - path: /
+
+databases:
+  - name: db
+    engine: PG
+    version: "15"
+    production: false
