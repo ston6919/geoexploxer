@@ -13,11 +13,13 @@ services:
       - key: DEBUG
         value: "False"
       - key: DJANGO_SETTINGS_MODULE
-        value: "core.settings"
+        value: "core.settings_production"
       - key: DATABASE_URL
         value: ${db.DATABASE_URL}
       - key: SECRET_KEY
         generate_value: true
+    health_check:
+      http_path: /api/hello/
 
   - name: frontend
     source_dir: /frontend
@@ -33,6 +35,8 @@ services:
         value: ${backend.URL}
     routes:
       - path: /
+    health_check:
+      http_path: /
 
 databases:
   - name: db
