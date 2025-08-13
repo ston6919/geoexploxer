@@ -1,9 +1,9 @@
-name: geoexplorer
+name: geoexploxer
 services:
   - name: backend
     source_dir: /backend
     github:
-      repo: yourusername/geoexplorer
+      repo: ston6919/geoexploxer
       branch: main
     run_command: gunicorn core.wsgi:application --bind 0.0.0.0:$PORT
     environment_slug: python
@@ -22,7 +22,7 @@ services:
   - name: frontend
     source_dir: /frontend
     github:
-      repo: yourusername/geoexplorer
+      repo: ston6919/geoexploxer
       branch: main
     run_command: npm start
     environment_slug: node-js
