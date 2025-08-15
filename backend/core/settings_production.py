@@ -19,6 +19,7 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 # Application definition
 INSTALLED_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -108,7 +109,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Use WhiteNoise for static files without manifest
+# Use WhiteNoise for static files
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Add static files finders
@@ -116,6 +117,9 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
+
+# Ensure admin static files are included
+STATICFILES_DIRS = []
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
