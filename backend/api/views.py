@@ -9,6 +9,27 @@ from users.serializers import UserSerializer, RegisterSerializer, LoginSerialize
 User = get_user_model()
 
 
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def api_root(request):
+    """API root endpoint showing available endpoints"""
+    return Response({
+        'message': 'GEOExplorer API',
+        'endpoints': {
+            'auth': {
+                'register': '/api/auth/register/',
+                'login': '/api/auth/login/',
+                'user': '/api/auth/user/',
+                'logout': '/api/auth/logout/',
+            },
+            'test': {
+                'hello': '/api/hello/',
+            }
+        },
+        'status': 'running'
+    })
+
+
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (permissions.AllowAny,)
