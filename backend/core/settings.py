@@ -4,6 +4,16 @@ Django settings for core project.
 
 from pathlib import Path
 from datetime import timedelta
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Debug: Check if environment variables are loaded
+print(f"DEBUG: OPENAI_API_KEY loaded: {'Yes' if os.getenv('OPENAI_API_KEY') else 'No'}")
+if os.getenv('OPENAI_API_KEY'):
+    print(f"DEBUG: API Key starts with: {os.getenv('OPENAI_API_KEY')[:10]}...")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -88,6 +98,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
+
+# URL Configuration
+APPEND_SLASH = False
 USE_I18N = True
 USE_TZ = True
 

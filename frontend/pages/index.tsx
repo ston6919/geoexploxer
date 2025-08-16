@@ -2,6 +2,10 @@ import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 export default function Home() {
   const [isLogin, setIsLogin] = useState(true);
@@ -75,114 +79,107 @@ export default function Home() {
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-2">GEOExplorer</h1>
             <p className="text-gray-600">Welcome to your exploration journey</p>
+            <Badge variant="secondary" className="mt-2">Beta Version</Badge>
           </div>
 
-          <div className="card">
-            <div className="flex mb-6">
-              <button
-                onClick={() => setIsLogin(true)}
-                className={`flex-1 py-2 px-4 text-center font-medium rounded-lg transition-colors ${
-                  isLogin
-                    ? 'bg-primary-600 text-white'
-                    : 'text-gray-600 hover:text-gray-800'
-                }`}
-              >
-                Sign In
-              </button>
-              <button
-                onClick={() => setIsLogin(false)}
-                className={`flex-1 py-2 px-4 text-center font-medium rounded-lg transition-colors ${
-                  !isLogin
-                    ? 'bg-primary-600 text-white'
-                    : 'text-gray-600 hover:text-gray-800'
-                }`}
-              >
-                Sign Up
-              </button>
-            </div>
+          <Card>
+            <CardHeader>
+              <div className="flex mb-6">
+                <Button
+                  variant={isLogin ? "default" : "ghost"}
+                  onClick={() => setIsLogin(true)}
+                  className="flex-1"
+                >
+                  Sign In
+                </Button>
+                <Button
+                  variant={!isLogin ? "default" : "ghost"}
+                  onClick={() => setIsLogin(false)}
+                  className="flex-1"
+                >
+                  Sign Up
+                </Button>
+              </div>
+            </CardHeader>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {!isLogin && (
-                <>
-                  <div className="grid grid-cols-2 gap-4">
-                    <input
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {!isLogin && (
+                  <>
+                    <div className="grid grid-cols-2 gap-4">
+                      <Input
+                        type="text"
+                        name="first_name"
+                        placeholder="First Name"
+                        value={formData.first_name}
+                        onChange={handleInputChange}
+                        required
+                      />
+                      <Input
+                        type="text"
+                        name="last_name"
+                        placeholder="Last Name"
+                        value={formData.last_name}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <Input
                       type="text"
-                      name="first_name"
-                      placeholder="First Name"
-                      value={formData.first_name}
+                      name="username"
+                      placeholder="Username"
+                      value={formData.username}
                       onChange={handleInputChange}
-                      className="input-field"
                       required
                     />
-                    <input
-                      type="text"
-                      name="last_name"
-                      placeholder="Last Name"
-                      value={formData.last_name}
-                      onChange={handleInputChange}
-                      className="input-field"
-                      required
-                    />
-                  </div>
-                  <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={formData.username}
-                    onChange={handleInputChange}
-                    className="input-field"
-                    required
-                  />
-                </>
-              )}
-              
-              <input
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="input-field"
-                required
-              />
-              
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleInputChange}
-                className="input-field"
-                required
-              />
-              
-              {!isLogin && (
-                <input
-                  type="password"
-                  name="password2"
-                  placeholder="Confirm Password"
-                  value={formData.password2}
+                  </>
+                )}
+                
+                <Input
+                  type="email"
+                  name="email"
+                  placeholder="Email Address"
+                  value={formData.email}
                   onChange={handleInputChange}
-                  className="input-field"
                   required
                 />
-              )}
+                
+                <Input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                />
+                
+                {!isLogin && (
+                  <Input
+                    type="password"
+                    name="password2"
+                    placeholder="Confirm Password"
+                    value={formData.password2}
+                    onChange={handleInputChange}
+                    required
+                  />
+                )}
 
-              {error && (
-                <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-lg">
-                  {error}
-                </div>
-              )}
+                {error && (
+                  <div className="text-destructive text-sm text-center bg-destructive/10 p-3 rounded-lg border border-destructive/20">
+                    {error}
+                  </div>
+                )}
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isLoading ? 'Loading...' : isLogin ? 'Sign In' : 'Sign Up'}
-              </button>
-            </form>
-          </div>
+                <Button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full"
+                >
+                  {isLoading ? 'Loading...' : isLogin ? 'Sign In' : 'Sign Up'}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </>
