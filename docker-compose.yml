@@ -7,18 +7,25 @@ services:
       - "8000:8000"
     environment:
       - DEBUG=False
-      - DJANGO_SETTINGS_MODULE=core.settings
+      - DJANGO_SETTINGS_MODULE=core.settings_production
+      - ALLOWED_HOSTS=*
+      - DB_NAME=geoexplorer
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_HOST=db
+      - DB_PORT=5432
     volumes:
       - ./backend:/app
     depends_on:
       - db
+    command: sh -c "python manage.py migrate && gunicorn core.wsgi:application --bind 0.0.0.0:8000"
 
   frontend:
     build: ./frontend
     ports:
       - "3020:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_API_URL=http://backend:8000
     volumes:
       - ./frontend:/app
       - /app/node_modules

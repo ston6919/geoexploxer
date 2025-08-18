@@ -161,23 +161,20 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-# CORS settings
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://localhost:3020",
-    "http://127.0.0.1:3020",
-    "https://geoexploxer-frontend.onrender.com",
-]
-
-# Add your production domain here
-if os.environ.get('FRONTEND_URL'):
-    CORS_ALLOWED_ORIGINS.append(os.environ.get('FRONTEND_URL'))
-
-# Also allow all Render subdomains for flexibility
-CORS_ALLOWED_ORIGINS.append("https://*.onrender.com")
+"""CORS settings for production and App Platform.
+Use FRONTEND_URL for a single origin, or CORS_ALLOW_ALL_ORIGINS=true for DO preview apps.
+"""
 
 CORS_ALLOW_CREDENTIALS = True
+
+if os.environ.get('CORS_ALLOW_ALL_ORIGINS', 'false').lower() == 'true':
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOWED_ORIGINS = [
+        os.environ.get('FRONTEND_URL', ''),
+    ]
+    # Filter out empties
+    CORS_ALLOWED_ORIGINS = [o for o in CORS_ALLOWED_ORIGINS if o]
 
 # Security settings
 SECURE_BROWSER_XSS_FILTER = True

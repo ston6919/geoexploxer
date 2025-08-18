@@ -6,14 +6,16 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install dependencies (use full install for build, prune later)
+RUN npm ci
 
 # Copy project files
 COPY . .
 
 # Build the application
-RUN npm run build
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+RUN npm run build && npm prune --production
 
 # Expose port
 EXPOSE 3000
