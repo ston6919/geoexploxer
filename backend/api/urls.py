@@ -7,6 +7,9 @@ urlpatterns = [
     path('auth/login/', views.LoginView.as_view(), name='login'),
     path('auth/user/', views.get_user_info, name='user_info'),
     path('auth/logout/', views.logout, name='logout'),
+    # Password reset endpoints
+    path('auth/password-reset/', views.password_reset_request, name='password_reset_request'),
+    path('auth/password-reset-confirm/', views.password_reset_confirm, name='password_reset_confirm'),
     path('hello/', views.hello_world, name='hello_world'),
     path('business/profile/', views.business_profile, name='business_profile'),
     path('business/onboarding-status/', views.onboarding_status, name='onboarding_status'),

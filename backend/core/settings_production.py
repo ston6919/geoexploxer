@@ -202,3 +202,7 @@ LOGGING = {
         },
     },
 }
+
+# Email backend (console by default for dev/demo)
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'no-reply@example.com')
