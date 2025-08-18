@@ -1,0 +1,17 @@
+services:
+  backend:
+    environment:
+      - DJANGO_SETTINGS_MODULE=core.settings
+      - DEBUG=True
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    command: npm run dev
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
