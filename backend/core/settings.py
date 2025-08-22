@@ -22,9 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-your-secret-key-here-change-in-production'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DJANGO_DEBUG", "True").lower() == "true"
 
-ALLOWED_HOSTS = []
+# Hosts allowed to access the Django app. Configure via env var ALLOWED_HOSTS
+# e.g. "example.com,backend-abc.ondigitalocean.app"
+ALLOWED_HOSTS = [h.strip() for h in os.getenv("ALLOWED_HOSTS", "*").split(",")]
 
 # Application definition
 INSTALLED_APPS = [
@@ -149,11 +151,12 @@ SIMPLE_JWT = {
 }
 
 # CORS settings
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://localhost:3020",
-    "http://127.0.0.1:3020",
-]
+_cors_origins = os.getenv("CORS_ALLOWED_ORIGINS")
+if _cors_origins:
+    CORS_ALLOWED_ORIGINS = [o.strip() for o in _cors_origins.split(",")]
+    CORS_ALLOW_ALL_ORIGINS = False
+else:
+    # Allow all by default for ease during deployment; restrict via env in prod
+    CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
